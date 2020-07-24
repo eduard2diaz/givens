@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/eduardo/Escritorio/givens/codigoC/qr_givens.c
+qr_givens.h
+/home/eduardo/Escritorio/givens/codigoC/qr_givens.h
+omp.h
+-
+
+/home/eduardo/Escritorio/givens/codigoC/qr_givens.h
+stdio.h
+-
+stdlib.h
+-
+math.h
+-
+

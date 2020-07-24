@@ -1,0 +1,1 @@
+/usr/bin/cc -g   CMakeFiles/sqrt.dir/qr_givens.c.o  -o sqrt  -lm 

@@ -1,0 +1,1 @@
+/usr/bin/cc -g   CMakeFiles/codigo_c.dir/gen_matrix.c.o CMakeFiles/codigo_c.dir/qr_givens.c.o  -o codigo_c  -lm 

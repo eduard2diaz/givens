@@ -1,0 +1,3 @@
+/home/eduardo/Escritorio/givens/codigoC/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/eduardo/Escritorio/givens/codigoC/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/eduardo/Escritorio/givens/codigoC/cmake-build-debug/CMakeFiles/codigo_c.dir
