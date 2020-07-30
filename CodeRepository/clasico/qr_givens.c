@@ -88,79 +88,17 @@ void applyGivens(double *m, double *q, int i, int j, int n) {
     }
 }
 
-int canRun(int *posicion, int column,int row, int n){
-    for (int i = 0; i <n ; ++i) {
-        if(column-posicion[i*2]==1)
-            return row-posicion[i*2+1]>=2;
-    }
-    return 1;
-}
-
-int nextColumn(int *posicion, int n,int maxColumn){
-    int max=-1;
-    for (int i = 0; i <n ; ++i) {
-        if(posicion[i*2]>max)
-            max=posicion[i*2];
-    }
-    max++;
-    return max==maxColumn ? -1 : max;
-}
-
 void QR_Givens(double *a, double *q, int n) {
     int i, j;
     double g[2][2];
-    int *positions;
-    int nthreads, tid, column, row, finish,nextCol;
-    finish = 0;
-    omp_set_num_threads(3);
-
-#pragma omp parallel shared(positions, nthreads) private(tid,i,column,row,nextCol)
-    {
-        tid = omp_get_thread_num();
-
-#pragma omp master
-        {
-            nthreads = omp_get_num_threads();
-            positions = (int *) calloc(nthreads * 2, sizeof(int));
-            for (j = 0; j < nthreads; j++) {
-                positions[j * 2] = j;
-                positions[j * 2 + 1] = n - 1;
-            }
+    //Leo las columnas(de izquierda a derecha)
+    for (j = 0; j < n; j++) {
+        //Leo las filas(de mayor a menor) de forma tal que voy recorriendo las columnas en sentido ascendente
+        for (i = n - 1; i > j; i--) {
+            if (a[i * n + j] != 0.0)
+                applyGivens(a, q, i, j, n);
         }
-
-#pragma omp barrier
-
-        column = positions[tid * 2];
-        row = positions[tid * 2 + 1];
-
-        while (finish == 0 && column != -1) {
-            if ((column == 0) || (canRun(positions, column, row, nthreads)) == 1) {
-                for (i = row; i > column; i--) {
-                    if (a[i * n + column] != 0.0)
-                        applyGivens(a, q, i, column, n);
-                    positions[tid * 2 + 1]--;
-                }
-                if (column == n - 1){
-                    finish = 1;
-                }
-                else {
-                    #pragma omp critical
-                    {
-                        nextCol=nextColumn(positions, nthreads, n);
-                        printf("Hilo %d, columna %d\n",tid, nextCol);
-                        positions[tid * 2] =nextCol;
-                        positions[tid * 2 + 1] = n - 1;
-                        column = positions[tid * 2];
-                        row = positions[tid * 2 + 1];
-                    }
-                }
-            }
-
-        }
-
-        #pragma omp barrier
     }
-    free(positions);
 }
 
 void swap(double *a, double *b) {
